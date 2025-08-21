@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Immortal's Roadmap to AI Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Amber -->
+    <!-- Application Structure Plan: The application is designed as an interactive, single-page vertical timeline. This structure was chosen to transform the linear text of the roadmap into a more engaging and visually intuitive journey. A sticky header provides context, while a dynamic "Mastery Meter" (a Chart.js doughnut chart) at the top offers immediate visual feedback on the user's progress. The core of the app is the timeline itself, where each of the five phases is a distinct, interactive node. Users can click on a phase title to expand its card, revealing detailed concepts, resources, and hands-on tasks. This progressive disclosure prevents information overload and allows users to focus on one stage at a time. The active phase is highlighted, guiding the user's attention. This design prioritizes clarity, user engagement, and a tangible sense of progression through a complex learning path. -->
+    <!-- Visualization & Content Choices: 
+        - Overall Structure -> Goal: Organize/Guide -> Method: Interactive vertical timeline with expandable cards -> Interaction: Click phase title to expand/collapse details -> Justification: Breaks a dense, multi-stage document into a manageable, step-by-step visual journey, making the content less intimidating and easier to navigate.
+        - Progress Tracker -> Goal: Motivate/Inform -> Method: Doughnut Chart (Chart.js) labeled "Mastery Meter" -> Interaction: Chart dynamically updates as the user scrolls to or clicks on different phases -> Justification: Gamifies the learning process, providing a clear and satisfying visual indicator of progress that encourages continued engagement. Library: Chart.js on Canvas.
+        - Phase Content -> Goal: Inform -> Method: Structured lists with Unicode icons (📜, 🔑, 🛠️, 📚) and clear headings within cards -> Interaction: Hyperlinks for all external resources -> Justification: Organizes detailed information cleanly within each phase. Icons provide quick visual context for topics, libraries, tasks, and resources, enhancing scannability.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .timeline-item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), padding 0.7s ease, opacity 0.5s ease;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .timeline-item.active .timeline-item-content {
+            max-height: 2500px; /* Large enough for content */
+            opacity: 1;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            width: 4px;
+            background-color: #e2e8f0; /* slate-200 */
+            z-index: 0;
+        }
+        .timeline-dot {
+            transition: all 0.3s ease;
+        }
+        .timeline-item.active .timeline-dot {
+            transform: scale(1.5);
+            background-color: #fbbf24; /* amber-400 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 250px;
+            height: 250px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="text-center py-10 md:py-16 bg-white border-b border-slate-200">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">The Immortal's AI Roadmap</h1>
+                <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">An interactive journey from the foundational mathematics to the creation of Generative AI.</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto p-6 md:p-10">
+            
+            <!-- Progress Visualization -->
+            <section class="mb-12 sticky top-0 bg-slate-50/80 backdrop-blur-lg py-6 z-20">
+                <h2 class="text-2xl font-bold text-center mb-4 text-slate-700">Mastery Meter</h2>
+                <div class="chart-container">
+                    <canvas id="masteryChart"></canvas>
+                    <div id="chart-text" class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                        <span id="chart-percentage" class="text-4xl font-bold text-slate-800">0%</span>
+                        <span id="chart-label" class="text-sm text-slate-500 font-medium mt-1">Getting Started</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline -->
+            <div class="relative max-w-4xl mx-auto">
+                <div class="timeline-line"></div>
+                
+                <!-- Phase 0 -->
+                <div id="phase-0" class="timeline-item relative pl-16 pb-12">
+                    <div class="timeline-dot absolute left-[10px] top-[8px] w-6 h-6 rounded-full bg-slate-300 border-4 border-slate-50 z-10"></div>
+                    <div class="cursor-pointer timeline-header">
+                        <p class="text-sm font-semibold text-amber-600">PHASE 0</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">The Foundation of the Gods</h3>
+                        <p class="text-slate-500 mt-1">Forge the mathematical and programming tools for your journey.</p>
+                    </div>
+                    <div class="timeline-item-content bg-white rounded-lg shadow-md mt-4 p-6 border border-slate-200">
+                        <h4 class="font-bold text-lg mb-3 text-slate-700">Core Concepts</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📜</span><strong>Programming:</strong> Deep fluency in Python, including OOP and clean code principles.</li>
+                            <li><span class="mr-2">📜</span><strong>Mathematics:</strong> Intuitive grasp of Linear Algebra (vectors, matrices), Calculus (derivatives, gradients), and Probability & Statistics.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Key Libraries & Frameworks</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🔑</span><strong>NumPy:</strong> Master array manipulation for all numerical operations.</li>
+                            <li><span class="mr-2">🔑</span><strong>Pandas:</strong> For data manipulation via DataFrames.</li>
+                            <li><span class="mr-2">🔑</span><strong>Matplotlib & Seaborn:</strong> Visualize data to understand it.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Hands-On Experience</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🛠️</span>Implement matrix multiplication from scratch and compare its speed to NumPy.</li>
+                            <li><span class="mr-2">🛠️</span>Load, clean, and analyze a simple dataset like the Titanic dataset from Kaggle.</li>
+                        </ul>
+                         <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Resources</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📚</span><strong>Math:</strong> <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDMSU2_3T9_z2L_pE_k0tH_a" target="_blank" class="text-amber-600 hover:underline">3Blue1Brown's "Essence of Linear Algebra"</a>.</li>
+                            <li><span class="mr-2">📚</span><strong>Python:</strong> "Python for Data Analysis" by Wes McKinney.</li>
+                            <li><span class="mr-2">📚</span><strong>Course:</strong> <a href="https://www.coursera.org/learn/machine-learning" target="_blank" class="text-amber-600 hover:underline">Andrew Ng's original "Machine Learning" on Coursera</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 1 -->
+                <div id="phase-1" class="timeline-item relative pl-16 pb-12">
+                    <div class="timeline-dot absolute left-[10px] top-[8px] w-6 h-6 rounded-full bg-slate-300 border-4 border-slate-50 z-10"></div>
+                    <div class="cursor-pointer timeline-header">
+                        <p class="text-sm font-semibold text-amber-600">PHASE 1</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">The Machine Learning Practitioner</h3>
+                        <p class="text-slate-500 mt-1">Master classical algorithms and the complete ML pipeline.</p>
+                    </div>
+                    <div class="timeline-item-content bg-white rounded-lg shadow-md mt-4 p-6 border border-slate-200">
+                        <h4 class="font-bold text-lg mb-3 text-slate-700">Core Concepts</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📜</span><strong>The ML Pipeline:</strong> Data Gathering → Preprocessing → Feature Engineering → Training → Evaluation → Deployment.</li>
+                            <li><span class="mr-2">📜</span><strong>Supervised Learning:</strong> Regression (Linear), Classification (Logistic Regression, SVMs, Decision Trees), and Ensemble Methods (Random Forests, Gradient Boosting).</li>
+                            <li><span class="mr-2">📜</span><strong>Unsupervised Learning:</strong> Clustering (K-Means) and Dimensionality Reduction (PCA).</li>
+                            <li><span class="mr-2">📜</span><strong>Model Evaluation:</strong> Cross-validation, Confusion Matrix, Precision, Recall, F1-Score.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Key Libraries & Frameworks</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🔑</span><strong>Scikit-Learn:</strong> The cornerstone of classical ML in Python. Master its API.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Hands-On Experience</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🛠️</span>Take a messy dataset and handle missing values, normalization, and encoding.</li>
+                            <li><span class="mr-2">🛠️</span>Participate in a beginner-level Kaggle competition to experience the full pipeline.</li>
+                            <li><span class="mr-2">🛠️</span>Build a simple web app (Flask/FastAPI) to serve a trained Scikit-Learn model.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Resources</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📚</span><strong>Book:</strong> "Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow" by Aurélien Géron (Part 1).</li>
+                            <li><span class="mr-2">📚</span><strong>Website:</strong> The <a href="https://scikit-learn.org/stable/user_guide.html" target="_blank" class="text-amber-600 hover:underline">Scikit-Learn User Guide</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div id="phase-2" class="timeline-item relative pl-16 pb-12">
+                    <div class="timeline-dot absolute left-[10px] top-[8px] w-6 h-6 rounded-full bg-slate-300 border-4 border-slate-50 z-10"></div>
+                    <div class="cursor-pointer timeline-header">
+                        <p class="text-sm font-semibold text-amber-600">PHASE 2</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">The Deep Learning Architect</h3>
+                        <p class="text-slate-500 mt-1">Understand neural network mechanics and build complex architectures.</p>
+                    </div>
+                    <div class="timeline-item-content bg-white rounded-lg shadow-md mt-4 p-6 border border-slate-200">
+                         <h4 class="font-bold text-lg mb-3 text-slate-700">Core Concepts</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📜</span><strong>Neural Networks:</strong> Neurons, activation functions (ReLU), layers, backpropagation, and gradient descent.</li>
+                            <li><span class="mr-2">📜</span><strong>Training:</strong> Optimizers (Adam), loss functions, and handling overfitting (Regularization, Dropout).</li>
+                            <li><span class="mr-2">📜</span><strong>CNNs:</strong> The architecture for images (convolutions, pooling).</li>
+                            <li><span class="mr-2">📜</span><strong>RNNs:</strong> The architecture for sequences (LSTMs, GRUs).</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Key Libraries & Frameworks</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🔑</span><strong>TensorFlow & Keras:</strong> Powerful combination for production.</li>
+                            <li><span class="mr-2">🔑</span><strong>PyTorch:</strong> Flexible and popular in research. Learn one deeply, know both.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Hands-On Experience</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🛠️</span>Build a neural network from scratch in NumPy for the MNIST dataset.</li>
+                            <li><span class="mr-2">🛠️</span>Build a CNN to classify images (e.g., CIFAR-10).</li>
+                            <li><span class="mr-2">🛠️</span>Build an LSTM for sentiment analysis.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Resources</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📚</span><strong>Book:</strong> "Hands-On Machine Learning..." by Aurélien Géron (Part 2).</li>
+                            <li><span class="mr-2">📚</span><strong>Course:</strong> <a href="https://www.coursera.org/specializations/deep-learning" target="_blank" class="text-amber-600 hover:underline">DeepLearning.AI Specialization on Coursera</a>.</li>
+                            <li><span class="mr-2">📚</span><strong>YouTube:</strong> <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" target="_blank" class="text-amber-600 hover:underline">3Blue1Brown's series on Neural Networks</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div id="phase-3" class="timeline-item relative pl-16 pb-12">
+                    <div class="timeline-dot absolute left-[10px] top-[8px] w-6 h-6 rounded-full bg-slate-300 border-4 border-slate-50 z-10"></div>
+                    <div class="cursor-pointer timeline-header">
+                        <p class="text-sm font-semibold text-amber-600">PHASE 3</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">The Language & Vision Specialist</h3>
+                        <p class="text-slate-500 mt-1">Apply deep learning to the domains of NLP and Computer Vision.</p>
+                    </div>
+                    <div class="timeline-item-content bg-white rounded-lg shadow-md mt-4 p-6 border border-slate-200">
+                        <h4 class="font-bold text-lg mb-3 text-slate-700">Core Concepts (NLP)</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📜</span><strong>Word Embeddings:</strong> Representing words as vectors (Word2Vec, GloVe).</li>
+                            <li><span class="mr-2">📜</span><strong>The Transformer Architecture:</strong> The most important concept in modern AI. Master self-attention.</li>
+                            <li><span class="mr-2">📜</span><strong>Transfer Learning:</strong> Using pre-trained models like BERT and fine-tuning them.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Concepts (Computer Vision)</h4>
+                        <ul class="space-y-3 text-slate-600">
+                             <li><span class="mr-2">📜</span><strong>Advanced CNNs:</strong> ResNet, Inception.</li>
+                            <li><span class="mr-2">📜</span><strong>Object Detection & Segmentation:</strong> YOLO, U-Net.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Key Libraries & Frameworks</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🔑</span><strong>NLP:</strong> Hugging Face Transformers, NLTK, spaCy.</li>
+                            <li><span class="mr-2">🔑</span><strong>CV:</strong> OpenCV, PyTorchCV.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Resources</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📚</span><strong>Blog:</strong> <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" class="text-amber-600 hover:underline">Jay Alammar's "The Illustrated Transformer"</a>.</li>
+                            <li><span class="mr-2">📚</span><strong>Courses:</strong> Stanford's CS224n (NLP) and CS231n (CV) materials online.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div id="phase-4" class="timeline-item relative pl-16">
+                    <div class="timeline-dot absolute left-[10px] top-[8px] w-6 h-6 rounded-full bg-slate-300 border-4 border-slate-50 z-10"></div>
+                    <div class="cursor-pointer timeline-header">
+                        <p class="text-sm font-semibold text-amber-600">PHASE 4</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">The Generative AI Creator</h3>
+                        <p class="text-slate-500 mt-1">Move from understanding data to creating it with master models.</p>
+                    </div>
+                    <div class="timeline-item-content bg-white rounded-lg shadow-md mt-4 p-6 border border-slate-200">
+                        <h4 class="font-bold text-lg mb-3 text-slate-700">Core Concepts</h4>
+                        <ul class="space-y-3 text-slate-600">
+                           <li><span class="mr-2">📜</span><strong>Generative Models:</strong> GANs, VAEs, and the revolutionary Diffusion Models.</li>
+                            <li><span class="mr-2">📜</span><strong>Large Language Models (LLMs):</strong> Scaling Transformers (GPT, LLaMA).</li>
+                            <li><span class="mr-2">📜</span><strong>Advanced Techniques:</strong> Prompt Engineering, Retrieval-Augmented Generation (RAG), and Fine-tuning.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Key Libraries & Frameworks</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🔑</span><strong>Hugging Face Ecosystem:</strong> `transformers`, `diffusers`, `PEFT`.</li>
+                            <li><span class="mr-2">🔑</span><strong>LangChain & LlamaIndex:</strong> For building LLM-powered applications.</li>
+                        </ul>
+                         <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Hands-On Experience</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">🛠️</span>Build a RAG-based chatbot to answer questions about your own documents.</li>
+                            <li><span class="mr-2">🛠️</span>Fine-tune a small LLM on a specific style of text.</li>
+                            <li><span class="mr-2">🛠️</span>Use the `diffusers` library to generate images from text prompts.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mt-6 mb-3 text-slate-700">Core Resources</h4>
+                        <ul class="space-y-3 text-slate-600">
+                            <li><span class="mr-2">📚</span><strong>Papers:</strong> Read "Attention Is All You Need", "BERT", and "Denoising Diffusion Probabilistic Models".</li>
+                            <li><span class="mr-2">📚</span><strong>YouTube:</strong> <a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank" class="text-amber-600 hover:underline">Andrej Karpathy's "Neural Networks: Zero to Hero"</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const chartPercentageEl = document.getElementById('chart-percentage');
+            const chartLabelEl = document.getElementById('chart-label');
+            let masteryChart;
+
+            const phaseData = [
+                { label: 'Foundation', percentage: 20 },
+                { label: 'ML Practitioner', percentage: 40 },
+                { label: 'DL Architect', percentage: 60 },
+                { label: 'Specialist', percentage: 80 },
+                { label: 'GenAI Creator', percentage: 100 }
+            ];
+
+            const chartConfig = {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#f59e0b', '#f1f5f9'], // amber-500, slate-100
+                        borderColor: ['#ffffff', '#ffffff'],
+                        borderWidth: 4,
+                        borderRadius: 10,
+                        cutout: '80%',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            enabled: false
+                        }
+                    },
+                    animation: {
+                        duration: 800,
+                        easing: 'easeInOutCubic'
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('masteryChart').getContext('2d');
+            masteryChart = new Chart(ctx, chartConfig);
+
+            function updateChart(phaseIndex) {
+                const data = phaseData[phaseIndex];
+                const percentage = data.percentage;
+                
+                masteryChart.data.datasets[0].data[0] = percentage;
+                masteryChart.data.datasets[0].data[1] = 100 - percentage;
+                masteryChart.update();
+
+                chartPercentageEl.textContent = `${percentage}%`;
+                chartLabelEl.textContent = data.label;
+            }
+
+            timelineItems.forEach((item, index) => {
+                const header = item.querySelector('.timeline-header');
+                header.addEventListener('click', () => {
+                    // Close all others
+                    timelineItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    // Toggle current
+                    item.classList.toggle('active');
+                    if(item.classList.contains('active')) {
+                        updateChart(index);
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        const index = Array.from(timelineItems).indexOf(item);
+                        if (!item.classList.contains('active')) {
+                            updateChart(index);
+                        }
+                    }
+                });
+            }, { rootMargin: "-40% 0px -60% 0px", threshold: 0 });
+
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+
+            // Open the first item by default
+            if (timelineItems.length > 0) {
+                timelineItems[0].classList.add('active');
+                updateChart(0);
+            }
+        });
+    </script>
+</body>
+</html>

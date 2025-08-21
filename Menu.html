@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mune PC - CR7 App Launcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('wp5425887-cristiano-ronaldo-4k-wallpapers.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 36px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .app-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 20px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .app {
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .app:hover {
+      transform: scale(1.1);
+    }
+
+    .app a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .app i {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .app span {
+      display: block;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mune PC</h1>
+  <div class="app-container">
+    <div class="app">
+      <a href="https://leetcode.com" target="_blank">
+        <i class="fas fa-code"></i>
+        <span>LeetCode</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="linkedin://" target="_blank">
+        <i class="fab fa-linkedin"></i>
+        <span>LinkedIn</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="whatsapp://" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span>WhatsApp App</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="https://github.com" target="_blank">
+        <i class="fab fa-github"></i>
+        <span>GitHub</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank">
+        <i class="fas fa-envelope"></i>
+        <span>MS Gmail</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="https://mail.google.com/mail/u/2/#inbox" target="_blank">
+        <i class="fas fa-envelope"></i>
+        <span>IM Gmail</span>
+      </a>
+    </div>
+    <div class="app">
+      <a href="https://www.youtube.com" target="_blank">
+        <i class="fab fa-youtube"></i>
+        <span>YouTube</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
